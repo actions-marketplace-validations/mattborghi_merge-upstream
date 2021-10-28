@@ -9,12 +9,21 @@ inputs:
   upstream:
     description: 'Upstream repository owner/name. For example, exions/merge-upstream'
     required: true
+  email:
+    description: 'User email for git commits'
+    default: 'actions@github.com'
+  name:
+    description: 'User name for git commits'
+    default: 'Merge Upstream Action'
   upstream-branch:
     description: 'Upstream branch to merge from. For example, master'
     default: 'master'
   branch:
     description: 'Branch to merge to. For example, master'
     default: 'master'
+  repository:
+    description: 'Repository to merge from. For example, https://github.com/'
+    default: 'https://github.com/'
   token:
     description: >
       Personal access token (PAT) used to fetch the repository. The PAT is configured
@@ -27,13 +36,13 @@ inputs:
 
 runs:
   using: "composite"
-  steps: 
-    - run: | 
-        git remote add -f upstream "https://github.com/${{ inputs.upstream }}.git"
-        git remote -v
-        git branch --all
-        git config --list
-        git checkout ${{ inputs.branch }}
-        git merge upstream/${{ inputs.upstream-branch }}
-        git push 
-      shell: bash
+  steps:
+    - run: |
+      set -eux
+      git checkout "${{ inputs.branch }}"
+      git remote add --fetch --track "${{ inputs.upstream-branch }}" upstream "${{ inputs.repository }}${{ inputs.upstream }}.git"
+      git config user.email "${{ inputs.email }}"
+      git config user.name "${{ inputs.name }}"
+      git merge "upstream/${{ inputs.upstream-branch }}"
+      git push
+    shell: sh
