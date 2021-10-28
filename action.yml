@@ -38,11 +38,11 @@ runs:
   using: "composite"
   steps:
     - run: |
-      set -eux
-      git checkout "${{ inputs.branch }}"
-      git remote add --fetch --track "${{ inputs.upstream-branch }}" upstream "${{ inputs.repository }}${{ inputs.upstream }}.git"
-      git config user.email "${{ inputs.email }}"
-      git config user.name "${{ inputs.name }}"
-      git merge "upstream/${{ inputs.upstream-branch }}"
-      git push
-    shell: sh
+        set -eux
+        git checkout "${{ inputs.branch }}"
+        git remote add --fetch --track "${{ inputs.upstream-branch }}" upstream "${{ inputs.repository }}${{ inputs.upstream }}.git"
+        git config user.email "${{ inputs.email }}"
+        git config user.name "${{ inputs.name }}"
+        git merge "upstream/${{ inputs.upstream-branch }}"
+        git push
+      shell: sh
