@@ -39,7 +39,7 @@ runs:
   steps:
     - run: |
         set -eux
-        git checkout "${{ inputs.branch }}"
+        git switch -C "${{ inputs.branch }}"
         git remote add --fetch --track "${{ inputs.upstream-branch }}" upstream "${{ inputs.repository }}${{ inputs.upstream }}.git"
         git config user.email "${{ inputs.email }}"
         git config user.name "${{ inputs.name }}"
